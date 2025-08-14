@@ -29,11 +29,28 @@ app.post('/search-by-image', async (req, res) => {
     let browser = null;
     try {
         // Inicia o navegador invisível. As 'args' são CRÍTICAS para funcionar no Render.
-        browser = await puppeteer.launch({
-            headless: true,
-            executablePath: '/opt/render/.cache/puppeteer/chrome/linux-127.0.6533.88/chrome-linux64/chrome',
-            args: ['--no-sandbox', '--disable-setuid-sandbox']
-        });
+        (async () => {
+            const browserFetcher = puppeteer.createBrowserFetcher();
+            const revisionInfo = browserFetcher.revisionInfo(puppeteer._preferredRevision);
+        
+            const browser = await puppeteer.launch({
+                headless: true,
+                executablePath: revisionInfo.executablePath,
+                args: [
+                    '--no-sandbox',
+                    '--disable-setuid-sandbox',
+                    '--disable-dev-shm-usage',
+                    '--disable-accelerated-2d-canvas',
+                    '--no-first-run',
+                    '--no-zygote',
+                    '--single-process', // Evita múltiplos processos no ambiente Render
+                    '--disable-gpu'
+                ]
+            });
+        
+            console.log('Chrome iniciado com sucesso!');
+            await browser.close();
+        })();
         const page = await browser.newPage();
         
         // Vai para a página de busca reversa de imagens do Google
