@@ -31,6 +31,7 @@ app.post('/search-by-image', async (req, res) => {
         // Inicia o navegador invisível. As 'args' são CRÍTICAS para funcionar no Render.
         browser = await puppeteer.launch({
             headless: true,
+            executablePath: '/opt/render/.cache/puppeteer/chrome/linux-127.0.6533.88/chrome-linux64/chrome',
             args: ['--no-sandbox', '--disable-setuid-sandbox']
         });
         const page = await browser.newPage();
