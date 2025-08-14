@@ -1,5 +1,6 @@
 // server.js - Nosso Detetive Robô
 
+const { exec } = require('child_process');
 const express = require('express');
 const puppeteer = require('puppeteer');
 const cors = require('cors');
@@ -29,6 +30,7 @@ app.post('/search-by-image', async (req, res) => {
 
     let browser = null;
     try {
+        exec('npx puppeteer browsers install chrome');
         // Inicia o navegador invisível. As 'args' são CRÍTICAS para funcionar no Render.
         browser = await puppeteer.launch({
             headless: true,
