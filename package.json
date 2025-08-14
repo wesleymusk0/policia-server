@@ -4,7 +4,7 @@
   "description": "API de Investigação SIP-IA para busca reversa de imagens com Puppeteer.",
   "main": "server.js",
   "scripts": {
-    "postinstall": "npx puppeteer browsers install chrome",
+    "postinstall": "npx puppeteer browsers install chrome &&  && chmod +x /opt/render/.cache/puppeteer/chrome/linux-127.0.6533.88/chrome-linux64/chrome",
     "start": "node server.js",
     "dev": "nodemon server.js"
   },
